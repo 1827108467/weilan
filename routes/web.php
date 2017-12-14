@@ -36,3 +36,7 @@ Route::get('/contact', function () {
         [ 'year' => date("Y") ]
     );
 });
+
+Route::get('/email/{name?}/{email?}' , 'Weilan\MessageController@email');
+
+Route::match(['get','post'] , '/message' , 'Weilan\MessageController@message' );

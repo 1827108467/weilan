@@ -90,7 +90,7 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="headeing pb-20">
-								<h2>取的联系</h2>
+								<h2>取得联系</h2>
 								<span class="b-line"></span>
 							</div>
                                 <p class="lead">
