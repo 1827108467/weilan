@@ -10,6 +10,10 @@ use App\Exceptions\Handle;
 use App\Http\Requests\SaveRemark;
 use Mail;
 
+use Illuminate\Notifications\Notification;
+use App\Notifications\MessageInvoice;
+use App\User;
+
 class MessageController extends Controller
 {
 
@@ -39,11 +43,34 @@ class MessageController extends Controller
 
             try{
             
-                $result = $messages ->save();
+                $result = $messages ->save($request->all());
 
                 if( $result ){
                     $request->session()->flash('message' , 'remark-success');
+
+                    // send email after remark successfully
+                    $user = User::find(1);
+                    $invoice = 'sane';
+
+                    /**
+                     *  first
+                     *  $user->notify(new MessageInvoice($invoice));
+                     */
+                    $user->notify(new MessageInvoice($invoice));
+
+                    /**
+                     * second
+                     * Notification::send($users, new InvoicePaid($invoice));
+                     * problem?
+                     */
+                    
+                    /**
+                     * third
+                     * $this ->email($request , $request ->input('customer_name'), $request ->input('customer_email'));
+                     * by sane
+                     */
                     $this ->email($request , $request ->input('customer_name'), $request ->input('customer_email'));
+                    
                     return redirect('/contact');
                 }
                 // else{

@@ -101,6 +101,7 @@ class MessageController extends Controller
 
             $form->tab('业务数据' , function($form){
                 $form->display('id', '编号');
+                $form->display('customer_name', '客户姓名');
                 $form->mobile('mobile', '手机');
                 $form->display('customer_email', '邮箱');
                 

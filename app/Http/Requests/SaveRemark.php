@@ -27,8 +27,8 @@ class SaveRemark extends FormRequest
     {
         return [
             //
-            'customer_name' => 'bail|required|max:5',
-            'mobile' => 'required|max:11',
+            'customer_name' => 'bail|required|max:10',  
+            'mobile' => 'required|unique:messages|max:11',
             'customer_email' => 'email',
             'subject' => 'required|max:20',
             'customer_subscribe' => 'max:200',
@@ -45,6 +45,7 @@ class SaveRemark extends FormRequest
         return [
             'customer_name.required' => '“姓名”必填。',
             'mobile.required' => '必须填写“手机”。',
+            'mobile.unique' => '该“手机号”已在此留言过。',
             'customer_email.email' => '"邮箱"必须是一个有效的邮箱',
             'subject.required' => '“主题”必填。',
             'subject.max' => '“主题”长度不可以大于20。',
