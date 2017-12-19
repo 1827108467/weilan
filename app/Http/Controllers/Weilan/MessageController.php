@@ -9,8 +9,8 @@ use Exception;
 use App\Exceptions\Handle;
 use App\Http\Requests\SaveRemark;
 use Mail;
-
-use Illuminate\Notifications\Notification;
+use Notification;
+use Illuminate\Notifications\ChannelManager;
 use App\Notifications\MessageInvoice;
 use App\User;
 
@@ -19,7 +19,7 @@ class MessageController extends Controller
 
     /**
      * add a new remark record.
-     * @param  Request  $request
+     * @param  App\Http\Requests\SaveRemark  $request
      * @return true
      * by sane
      */    
@@ -49,28 +49,32 @@ class MessageController extends Controller
                     $request->session()->flash('message' , 'remark-success');
 
                     // send email after remark successfully
-                    $user = User::find(1);
+                    $users = User::find(1);
                     $invoice = 'sane';
 
                     /**
                      *  first
-                     *  $user->notify(new MessageInvoice($invoice));
+                     *  $users->notify(new MessageInvoice($invoice));
                      */
-                    $user->notify(new MessageInvoice($invoice));
+                    // $users->notify(new MessageInvoice($invoice));
 
                     /**
                      * second
-                     * Notification::send($users, new InvoicePaid($invoice));
-                     * problem?
+                     * Notification::send($users, new MessageInvoice($invoice));
+                     * 
+                     * Notification::route('mail', 'taylor@laravel.com')
+                     *              ->route('nexmo', '5555555555')
+                     *              ->notify(new InvoicePaid($invoice));
                      */
+                    Notification::send($users, new MessageInvoice($invoice));
                     
                     /**
                      * third
                      * $this ->email($request , $request ->input('customer_name'), $request ->input('customer_email'));
                      * by sane
                      */
-                    $this ->email($request , $request ->input('customer_name'), $request ->input('customer_email'));
-                    
+                    // $this ->email($request , $request ->input('customer_name'), $request ->input('customer_email'));
+
                     return redirect('/contact');
                 }
                 // else{
@@ -87,6 +91,7 @@ class MessageController extends Controller
     /**
      * send email after remark successfully
      *
+     * @param  Illuminate\Http\Request $request
      * @param [string] $name
      * @param [string] $email
      * @return boolen

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Message;
 
 class SaveRemark extends FormRequest
 {
@@ -15,6 +16,8 @@ class SaveRemark extends FormRequest
      */
     public function authorize()
     {
+        // $messages = Message::find($this->route('message'));
+        // return $messages&&$this->user()->can('update', $messages);
         return true;
     }
 

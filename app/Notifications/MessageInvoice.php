@@ -9,18 +9,20 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 // php artisan make:notification MessageInvoice     by sane
 
-class MessageInvoice extends Notification
+class MessageInvoice extends Notification implements ShouldQueue
 {
     use Queueable;
+    public $data;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data)
     {
         //
+        $this->data=$data;
     }
 
     /**
@@ -31,6 +33,7 @@ class MessageInvoice extends Notification
      */
     public function via($notifiable)
     {
+        // die(dd($notifiable));
         // return ['mail'];
         return $notifiable->prefers_sms ? ['nexmo'] : ['mail', 'database'];
     }
@@ -43,11 +46,18 @@ class MessageInvoice extends Notification
      */
     public function toMail($notifiable)
     {
+        /*
+        select formwork
+        return (new MailMessage)->view(
+            'emails.name', ['invoice' => $this->invoice]
+        ); */
         return (new MailMessage)
-                    ->greeting('您好!')
-                    ->line('The introduction to the notification.')
-                    ->action('回到官网', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->error()       //显示错误消息
+                    ->subject('badguy')     //邮件主题
+                    ->greeting('您好!')       //开头
+                    ->line('提示消息，点击以下按钮可跳转至官网.')    //正文
+                    ->action('回到官网', url('/'))      //链接
+                    ->line('谢谢您的光临!');      //尾部截止
     }
 
     /**
@@ -60,6 +70,7 @@ class MessageInvoice extends Notification
     {
         return [
             //
+            'data'=>$this->data,
         ];
     }
 }
