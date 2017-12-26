@@ -50,7 +50,7 @@ class MessageController extends Controller
 
                     // send email after remark successfully
                     $users = User::find(1);
-                    $invoice = 'sane';
+                    $invoice =  $request ->input();
 
                     /**
                      *  first
@@ -114,6 +114,35 @@ class MessageController extends Controller
             $request->session()->flash('message' , 'email-success');
         }
 
+    }
+
+    /**
+     * look up notifications about someone in users table
+     *
+     * @return void
+     * by sane
+     */
+    public function notificate(){
+
+        $user = User::find(1);
+
+        // access to notification
+        foreach ($user->notifications as $notification) {
+            // dd($notification->data);
+            // dd($notification);
+        }
+
+        // access to unread notification 
+        foreach ($user->unreadNotifications as $notification) {
+            // dd($notification->type);
+        }
+
+        // mark the notification to read
+        foreach ($user->unreadNotifications as $notification) {
+            $notification->markAsRead();
+        }
+
+        $user->notification()->delete();
     }
 
 }

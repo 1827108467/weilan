@@ -29,7 +29,6 @@ Route::get('/service', function () {
     );
 });
 
-
 Route::get('/contact', function () {
     return view(
         'weilan/contact' ,
@@ -40,3 +39,5 @@ Route::get('/contact', function () {
 Route::get('/email/{name?}/{email?}' , 'Weilan\MessageController@email');
 
 Route::match(['get','post'] , '/message' , 'Weilan\MessageController@message' );
+
+Route::get('/notificate' , 'Weilan\MessageController@notificate');

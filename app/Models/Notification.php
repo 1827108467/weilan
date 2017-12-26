@@ -51,6 +51,7 @@ class Notification extends Model
      */
     public function newCollection(array $models = [])
     {
+        
         return new DatabaseNotificationCollection($models);
     }
 

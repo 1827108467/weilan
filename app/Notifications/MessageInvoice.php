@@ -34,7 +34,7 @@ class MessageInvoice extends Notification implements ShouldQueue
     public function via($notifiable)
     {
         // die(dd($notifiable));
-        // return ['mail'];
+        // return ['database'];
         return $notifiable->prefers_sms ? ['nexmo'] : ['mail', 'database'];
     }
 
@@ -68,6 +68,7 @@ class MessageInvoice extends Notification implements ShouldQueue
      */
     public function toArray($notifiable)
     {
+        // die(dd($this));
         return [
             //
             'data'=>$this->data,
