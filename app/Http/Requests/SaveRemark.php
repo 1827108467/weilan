@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Message;
+use App\Rules\ValidateRemarkRule;
 
 class SaveRemark extends FormRequest
 {
@@ -31,7 +32,9 @@ class SaveRemark extends FormRequest
         return [
             //
             'customer_name' => 'bail|required|max:10',  
-            'mobile' => 'required|unique:messages|max:11',
+            'mobile' => [
+                'required' ,'unique:messages' ,'max:11' , new ValidateRemarkRule
+            ],
             'customer_email' => 'email',
             'subject' => 'required|max:20',
             'customer_subscribe' => 'max:200',

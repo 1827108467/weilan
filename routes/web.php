@@ -12,7 +12,13 @@
 */
 
 Route::get('/welcome', function () {
-    return view('welcome');
+
+    // render view @sane
+    // use Illuminate\Support\Facades\View 
+    return View::make('welcome');
+
+    // use Helper
+    // return view('welcome');
 });
 
 Route::get('/', function () {
